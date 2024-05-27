@@ -5,9 +5,11 @@ toc: true
 classes: wide
 ---
 
-Hello! I'm Srikanth, a current M.S. in Robotics student at Northwestern University. I am most interested in the field of mobile robotics, and I hope to use my skills and experience to develop interesting and impactful robots. I bring coding experience with ROS2, Python, C++, and C, as well as multiple years of industry experience working in design and field robotics. I am currently seeking roles in robotic software, autonomy, and control.
+![saltbot_pose]({{ site.url }}{{ site.baseurl }}/assets/images/saltbot_pose.jpg)
 
-My most recent projects involve simulations of dynamics, manipulation, and swarm robotics as well as manipulation of a a 7-DOF robot arm to play games with a human in the loop. Check them out on my main page!
+Hello! I'm Srikanth, a current M.S. in Robotics student at Northwestern University. I am most interested in the field of mobile robotics with a focus in sensing, navigation, and autonomy. I'm excited to develop interesting and impactful robots that go where other robots haven't gone before! I bring coding experience with ROS2, Python, C++, and C, as well as multiple years of industry experience working in design and field robotics. I am currently seeking roles in robotic software, autonomy, and control.
+
+My most recent project involves creating an autonomous roadsalt spreading robot or "saltbot" for melting ice in the cold Chicago winter. Feel free to check out this project and many more on my main page [HERE]({{ site.url }}{{ site.baseurl }})!
 
 ## Professional Experience
 
