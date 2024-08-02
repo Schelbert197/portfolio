@@ -26,19 +26,25 @@ This project aimed at using computer vision techniques to provide feedback on a 
 ## Final Output
 
 ### Feedback
-Below are examples of the final output for this project. 
+Below are examples of the final output for this project. Both are examples show that we have made the shot, but based on the analysis, Henry's shot is a higher quality shot than mine which is reflected in the score, the feedback, and the color of the score bubble. Because my shot is too high and falls out of the optimal range, I score lower. The graphs also show that my trajectory is further from Steve Nash's which, according to the shape analysis, will also lower my score.
 {% include gallery id="gallery8879" %}
 
 ### Using the tracker
-Using the 
+Using the program is fairly simple. A user selects the video to be assessed, and then enters their skill level from pro, intermediate or beginner. Once this is done, the program will show the mediapipe video, the ball tracking, and then generate the pdf with helpful information to improve your shot. 
 
-![Rainbow]({{ site.url }}{{ site.baseurl }}/assets/images/cv_project/cv_input.png)
+![Input]({{ site.url }}{{ site.baseurl }}/assets/images/cv_project/cv_input.png)
 
 ## Tracking the Player
 To track the motion of the player, we used Google's Mediapipe program to get the trajectory of the key-points on the player's body. For our analysis, we focused on the motion of the hands/wrists as the player shot the ball.
 
+![Nash_Mediapipe]({{ site.url }}{{ site.baseurl }}/assets/images/cv_project/Nash_mediapipe_trimmed.gif)
+
 ## Tracking the Ball
-Tracking the motion of the ball, unlike that of the player, proved to be a bit more complicated due to a few key challenges that often appear in computer vision applications
+Tracking the motion of the ball, unlike that of the player, proved to be a bit more complicated due to a few key challenges that often appear in computer vision applications.
+- Variable Lighting Conditions
+- Motion Blur
+- Multiple instances of a ball in the frame
+- Multiple objects of a similar color (basketball color)
 
 (list challenges)
 
