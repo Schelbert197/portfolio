@@ -6,6 +6,7 @@ excerpt: "Computer Vision, Motion Tracking, Google MediaPipe"
 header:
   teaser: /assets/images/cv_project/Nash_ball_tracking.gif
 classes: wide
+toc: true
 gallery8879:
   - url: /assets/images/cv_project/output_pdf.png
     image_path: /assets/images/cv_project/output_pdf.png
@@ -15,13 +16,22 @@ gallery8879:
     image_path: /assets/images/cv_project/srikanth_make.png
     alt: "placeholder image 2"
     title: "Srikanth Make"
+gallery8878:
+  - url: /assets/images/cv_project/ball_id_henry.png
+    image_path: /assets/images/cv_project/ball_id_henry.png
+    alt: "placeholder image 1"
+    title: "Henry Ball Tracking"
+  - url: /assets/images/cv_project/ball_track_srikanth.png
+    image_path: /assets/images/cv_project/ball_track_srikanth.png
+    alt: "placeholder image 2"
+    title: "Srikanth Ball Trajectory"
 ---
 
 ## Project Goal
 This project aimed at using computer vision techniques to provide feedback on a the free throw shots executed by a basketball player. By tracking the motion of the ball and motion of the player's hands, the program outputs a PDF document offering data to help the player improve including the following:
 - An overall score out of 100
 - The release angle
-- Graphs comparing the player's shot to one from Steve Nash
+- Graphs comparing the player's free-throw shot to one from Steve Nash
 
 ## Final Output
 
@@ -46,7 +56,30 @@ Tracking the motion of the ball, unlike that of the player, proved to be a bit m
 - Multiple instances of a ball in the frame
 - Multiple objects of a similar color (basketball color)
 
-(list challenges)
+To remedy these issues, the program first naively identifies all possible instances of the ball by masking each frame of the video based on the range of colors the ball could be (dark brown to bright orange). With these, each instance is rated on the following parameters and given a score:
+- Squareness
+- Size
+- Distance from the last ball sighting
 
-## Comparing the Player's Motion
-While using Mediapipe provides the trajectory of Steve Nash's and the player's motion, finding a way to meaningfully compare the trajectories and represent that as a score out of 100 required some creativity.
+Each of these parameters is then normalized and weighted and given a total score which gives the highest likelihood of the identified "ball" being the actual basketball. The gif below shows the program tracking the ball.
+
+![Nash_ball_tracking]({{ site.url }}{{ site.baseurl }}/assets/images/cv_project/Nash_ball_tracking.gif)
+
+As seen in the video, the naive guess identifies the actual ball, the hoop, and some of Steve's skin as a potential ball. This is remedied by the scoring algorithm which allows for fairly accurate trajectory tracking of the ball. The red dot notes the last seen location which helps ensure that ball was properly tracked.
+
+{% include gallery id="gallery8878" %}
+
+The photo of Henry on the left shows the objects identified in the frame with their scores associated. While the initial mask identifies his knees and elbows as potential ball instances, the final output is not affected. In the image to the right, a frame from my video is overlayed with the overall trajectory of the ball throughout the video. THe shows that in spite of some noise, we can still achieve a smooth trajectory that is then added to the final output PDF.
+
+## Comparing the Player's and Ball's Motion
+While using Mediapipe provides the trajectory of Steve Nash's and the player's motion, finding a way to meaningfully compare the trajectories and represent that as a score out of 100 required some creativity. By fixing the angle of the camera to be orthogonal to the player's shot, the number of variables was reduced, but the question of shape analysis was still unclear. To resolve this, two separate methods of shape analysis were used and combined for a total overall score. 
+
+- **Fast Dynamic Time Warping** (FastDTW) : A technique that measures similarity between two sequences which may vary in time or speed
+- **Procrustes Analysis** : A statistical shape analysis method used to compare shapes involving translating, rotating, and scaling the shapes to minimize the differences between them.
+
+While these techniques were able to provide scores, there were two problems:
+
+1. There was no scale for the output from each scoring method
+2. The scoring methods might not have a linear relationship with difference in shape (which adds difficulty to scoring)
+
+To remedy this, I decided to compare instances of the 
