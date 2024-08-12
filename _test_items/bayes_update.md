@@ -1,7 +1,7 @@
 ---
 title: "Binary Sensor Bayes Update"
 author_profile: true
-key: 99
+key: 98
 excerpt: "Bayes Update, Numpy, Matplotlib"
 header:
   teaser: /assets/images/Die_cup_edited.gif
@@ -35,32 +35,31 @@ EQUAITON
 The above equation models the belief of the source. 
 
 ## Sparse Data "100 Shot" sensor
-While it is easy to get a good sense of the location from lots of samples spread uniformly around the space, it is important to study how one sample affects the belief of the location of the source. 
+While it is easy to get a good sense of the location from lots of samples spread uniformly around the space, it is important to study how sampling in one location affects the belief of the location of the source. It is worth exploring the question of "can the robot gain information from sampling somewhere when it cannot move?". The answer is in fact YES!
 
-
-FIX
 ![sparse_sample_plot]({{ site.url }}{{ site.baseurl }}/assets/images/active_learning/hw1_p3.png)
 
-In the above example, we assume each plot to show the belief of the location of the source with the orange dot acting as the FIRST and ONLY sample the robot has (meaning there is no prior information). The source, as shown in the first plot above, is still at (0.3, 0.4) but the robot does not know this. The middle plot here shows that the robot believes the source to be somewhere far away from the sample, which in this case is negative, but given no other information, it has no ability to narrow down the belief further. The left and rightmost plots are positive reads, and the robot able to narrow down the belief to two rings which results from the threshold of the source's signal which is where we learn the most. 
+In the above example, we assume each plot to show the belief heatmap of the location of the source with the orange dot acting as only sample location the robot has. The dot is orange to denote that this could be a mix of positive or negative sensor readings and is not simply one measurement. The source, as shown with the blue "x" marked in the legend, is still at (0.3, 0.4) but the robot does not know this. The robot's goal is to get the blue "x" in the narrowest white portion possible. The middle plot here shows that the robot believes the source to be somewhere far away from the sample, but with the samples repeatedly appearing negative, the robot cannot narrow down the belief further. The left and rightmost plots are mixed reads which create thresholding allowing the robot to narrow down the belief to two rings. It is in this thresholding that the most information is gained. 
 
-If this concept is confusing, think about the idea of walking down stairs in complete darkness. The most important information regarding where to place your foot comes from where the edge of the step is. We see that the model is able to capture the source quite well within the guess of possible locations (or heatmap), but again with this being a "single shot" read, we cannot narrow down without more information. 
+If this concept is confusing, think about the idea of walking down stairs in complete darkness. The most important information regarding where to place your foot comes from where the edge of the step is rather than the face of the step or no step at all. We see that the model is able to capture the source quite well within the rings, but again with this being constrained to one location, we cannot narrow down our belief without more information. 
 
-## Successive Samples from One Location
-In this next example it is worth exploring the question of "can the robot gain information from sampling somewhere when it cannot move?". The answer is in fact YES!
+## 10 Successive Samples from One Location
+To better understand what is happening in the last visuals the below plot models 10 sequential samples all taken from the same location [0.17, 0.51] where the belief gets updated after each sample reading is taken. 
 
 ![successive_sample_plot]({{ site.url }}{{ site.baseurl }}/assets/images/active_learning/hw1_p4.png)
 
-The plots below show 10 sequential readings all taken from the same source. In this instance, the green heatmap shows the belief of where the sensor is, and the white shows the sensor's signal strength (as we saw in the first plot above). I have plotted it this way simply to make this easy to visualize. 
+In these plots, the green heatmap shows the belief of where the sensor is, and the white shows the sensor's signal strength (as we saw in the first plot above). I have plotted it this way simply to make this easy to visualize. 
 
-![frames]({{ site.url }}{{ site.baseurl }}/assets/images/Jackbox.png)
+In these examples, the beleif begins as a fuzzy green ring that narrows with each positive results, but suddenly a negative result in the 6th plot "splits" the belief into two thinner concentric rings that appear to create the inverse of the original one. This is because a sensor reading that flips is more informative. Another real-life example of this would be that if you want to know a person's location in a room, it is easy to guess where they are if you know they just crossed the threshold letting you know they're near the doorway (which is represented by the flipped sensor reading). 
 
-## Euler Lagrange Equations
-![EL]({{ site.url }}{{ site.baseurl }}/assets/images/EL_eqn.png)
+While this plot is able to sharpen the rings considerably, there is still ambiguity due to the robot's inability to move, so the rings, as we saw in the last example, cannot be narrowed to a focused point. 
 
-The Euler-Lagrange equations (shown in terms of L(q,qdot) above) are critical for finding the instantaneous accelerations of the bodies. By finding the body velocities of the box and the die, defining the inertial matrices, and calculating the kinetic energy and potential energy (so that we have the Lagrangian, L), the equation shown above can be calculated for each component of the configuration q. From these equations, the accelerations of the configuration are found, and the system is simulated using RK4 integration over a 0.01 second timestep.
+## 10 Successive Samples While Moving
+Since the last example was restricted in movement, it is now worth exploring how the belief changes as the robot takes sensor measurements while moving. The below plots show 10 readings while the robot moves in the space, and like before, the green heatmap represents the belief or probability of the source being in that location.
 
-## Constraints
-The system is constrained by the impacts that keep the red die inside the blue box. Whenever an impact is detected by one of the 4 corners of the contacting one of the 4 edges of the box, the impact update equations will trigger in the simulation loop to reflect the appropriate dynamics of the system. Each collision is considered a fully elastic collision between bodies which can be seen from the video above.
+![moving_robot]({{ site.url }}{{ site.baseurl }}/assets/images/active_learning/hw1_p5.png)
 
-## External Forces
-There are two external forces acting on the system in this simulation. First, is a force that is equal to the force of the box due to gravity to keep it up. This force does not account for the impact of the die on the box, so it does fall slightly due to intertia as they impact each other. The second force is a rotation force on the box to give it an initial rotational velocity. This force has an inverse relationship with time so it provides an initial acceleration that decreases throughout the simulation.
+While the sampling only in one location yielded crisp rings, moving the sensor's sampling locations while also having the sensor results change allows the belief to be narrowed down to a few key areas which is also reflected in the scale of the green bar to right of each plot as the probability increases.
+
+## Closing Thoughts
+While this is very useful in the application of robotics for mapping and navigation, Bayes update has applications beyond this from predicting geographical likelihood of crime to predicting which vaccines would be most effective.
