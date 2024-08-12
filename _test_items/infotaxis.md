@@ -40,6 +40,20 @@ If the robot is now given the choice of moving towards the direction that is mos
 
 ![Infotaxis1]({{ site.url }}{{ site.baseurl }}/assets/images/active_learning/problem2.png)
 
+Like the random walk, this robot is still given 100 moves to make (plotted in groups of 10), though unlike the random walk, the robot moves in a much more methodical fashion. Eventually the robot is able to locate the source of the signal with near perfect certainty. 
+
+If we run this experiment again with the infotaxis algorithm starting from a different initial location, we see the robot is able to again find the source, but it also displays some other interesting behavior.
+
+![Infotaxis2]({{ site.url }}{{ site.baseurl }}/assets/images/active_learning/problem2_2.png)
+
+As seen above, the robot moved methodically often seeking out the brightest nearby space to investigate, and it also succeeds in finding the source with high confidence. Unlike the first infotaxis run but similar to the random walk experiments, the robot, as seen in Itr 9, finds itself with a couple potential options for where the source is, and it also finds itself initially guessing a high confidence on a cell that is NOT the source. Because the robot has the ability to move in a way that maximizes information gain using infotaxis, it is able to correct this and still zero in on the source location.
+
+![Infotaxis3]({{ site.url }}{{ site.baseurl }}/assets/images/active_learning/problem2_3.png)
+
+If the experiment is run a third time with a new starting location and source location, we see a similar behavior and result as the second run. 
+
 
 ## Closing Thoughts
-While this is very useful in the application of robotics for mapping and navigation, Bayes update has applications beyond this from predicting geographical likelihood of crime to predicting which vaccines would be most effective.
+Overall this exploration demonstrates that infotaxis can be an efficient driver for autonomous mapping for robots. One consideration is the simplicity of this example versus real life applications. This robot has a finite space to explore with a single binary sensor with which to calculate the change in entropy. This means that there are only 10 possibilities per move (positive or negative result for each possible move on the grid). In real life applications, sensors produce data over a more continuous rather than discrete set of results which means that the scaling for the update becomes significantly more computationally heavy. 
+
+I am interested to investigate algorthms involving mutual information like Fast Shannon Mutual Information [(FSMI)](https://lean.mit.edu/highlights/mutual-information) to help solve this problem and scale real sensor data more appropriately.
