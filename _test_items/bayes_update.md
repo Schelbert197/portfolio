@@ -1,15 +1,15 @@
 ---
-title: "Binary Sensor Bayes Update"
+title: "Binary Sensor Bayes' Update"
 author_profile: true
 key: 98
-excerpt: "Bayes Update, Numpy, Matplotlib"
+excerpt: "Bayes' Update, Numpy, Matplotlib"
 header:
   teaser: /assets/images/Die_cup_edited.gif
 classes: wide
 ---
 
 
-This project demonstrates the Baye's update algorithm to adjust belief of the location of a source over a finite space. 
+This project demonstrates the Bayes' update algorithm to adjust belief of the location of a source over a finite space. 
 
 ## The Setup
 To understand the algorithm, we assume that there is a robot with a binary sensor that is searching for the source of a signal. The sensor can only inform the robot that it does or does not sense the signal, but it cannot provide information on the strength of the signal. The source produces a signal that varies with distance from its location, but rather than diminishing as radial distance decreases, it follows the function f(x) = e^(-100 * (||x - source|| * 0.2)^2)
@@ -62,4 +62,4 @@ Since the last example was restricted in movement, it is now worth exploring how
 While the sampling only in one location yielded crisp rings, moving the sensor's sampling locations while also having the sensor results change allows the belief to be narrowed down to a few key areas which is also reflected in the scale of the green bar to right of each plot as the probability increases.
 
 ## Closing Thoughts
-While this is very useful in the application of robotics for mapping and navigation, Bayes update has applications beyond this from predicting geographical likelihood of crime to predicting which vaccines would be most effective.
+While this is very useful in the application of robotics for mapping and navigation, Bayes' update has applications beyond this from predicting geographical likelihood of crime to predicting which vaccines would be most effective.

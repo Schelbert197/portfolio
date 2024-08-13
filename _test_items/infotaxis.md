@@ -2,7 +2,7 @@
 title: "Infotaxis"
 author_profile: true
 key: 99
-excerpt: "Infotaxis, Bayes Update, Numpy, Matplotlib"
+excerpt: "Infotaxis, Bayes' Update, Numpy, Matplotlib"
 toc: true
 header:
   teaser: /assets/images/Die_cup_edited.gif
@@ -10,13 +10,16 @@ classes: wide
 ---
 
 
-This project demonstrates the infotaxis algorithm based on Baye's update to guide a robot's navigation of a finite space to find the source of a signal. 
+This project demonstrates the infotaxis algorithm based on Bayes' update to guide a robot's navigation of a finite space to find the source of a signal. 
+
+## Video Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jDVT8ASbmU0?si=vnFh2my61y2Ffp5y" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## The Algorithm
-The infotaxis algorithm uses Bayes update to make informed decisions about what the belief regarding the environment will be if certain motions and sensor readings in the environment are made. In this case, the idea is to maximize entropy...
+The infotaxis algorithm uses Bayes' update to make informed decisions about what the belief regarding the environment will be if certain motions and sensor readings in the environment are made. In this case, the idea is to maximize entropy...
 
 ## Robot Sensor Setup
-In the inital Bayes Update investigation, the sensor on the robot was assumed to be a binary reading right at the location of the measurement. Since most sensors in robotics can sense over a range of space, the sensor here is assumed to have a gradient of fidelity based on a binary reading. The plot below shows the shape of the sensor's field as well as the strength of the sensor's read.
+In the inital Bayes' Update investigation, the sensor on the robot was assumed to be a binary reading right at the location of the measurement. Since most sensors in robotics can sense over a range of space, the sensor here is assumed to have a gradient of fidelity based on a binary reading. The plot below shows the shape of the sensor's field as well as the strength of the sensor's read.
 
 ![Dumbbell]({{ site.url }}{{ site.baseurl }}/assets/images/active_learning/dumbbell.png)
 
