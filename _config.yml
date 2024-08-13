@@ -110,7 +110,7 @@ defaults:
       share: true
   - scope:
       path: ""
-      type: portfolio_manipulation
+      type: portfolio_featured
     values:
       layout: single
       author_profile: false
@@ -124,7 +124,7 @@ defaults:
       share: true
   - scope:
       path: ""
-      type: portfolio_ML
+      type: portfolio_sim
     values:
       layout: single
       author_profile: false
@@ -162,13 +162,13 @@ collections:
   portfolio:
     output: true
     permalink: /:collection/:path/
-  portfolio_manipulation:
+  portfolio_featured:
     output: true
     permalink: /:collection/:path/
   portfolio_perception_nav:
     output: true
     permalink: /:collection/:path/
-  portfolio_ML:
+  portfolio_sim:
     output: true
     permalink: /:collection/:path/
   portfolio_mechatronics:
