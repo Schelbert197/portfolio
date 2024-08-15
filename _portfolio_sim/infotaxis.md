@@ -65,4 +65,4 @@ I am interested to investigate algorthms involving mutual information like Fast 
 
 ## Code
 This code can be downloaded as an ipynb or run via google colab and run for yourself. 
-- [Code file](https://github.com/Schelbert197/active_learning/blob/main/homework2.ipynb)
+- [Code file](https://github.com/Schelbert197/active_learning/blob/main/h2_infotaxis/homework2.ipynb)
