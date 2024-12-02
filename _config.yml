@@ -93,6 +93,7 @@ defaults:
       comments: true
       share: true
       related: true
+      mathjax: false # Set default to false unless needed
   # _pages
   - scope:
       path: "_pages"
@@ -108,6 +109,7 @@ defaults:
       layout: single
       author_profile: false
       share: true
+      mathjax: false # Set default to false unless needed
   - scope:
       path: ""
       type: portfolio_featured
@@ -115,6 +117,7 @@ defaults:
       layout: single
       author_profile: false
       share: true
+      mathjax: false # Set default to false unless needed
   - scope:
       path: ""
       type: portfolio_perception_nav
