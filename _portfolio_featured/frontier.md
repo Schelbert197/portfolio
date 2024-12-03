@@ -23,7 +23,7 @@ To make this approachable and easy to use, I chose to use common platforms and p
 All of my code is written as ROS2 packages that can be downloaded from GitHub and built from source. All code is written in C++ to minimize runtime delay and allow for more platform flexibility. Through the README, any user should be able to build the packages and then use the lauch files to either run a full simulation or deploy frontier exploration on a real robot. 
 
 ### Source code
-[Github Repository](https://github.com/Schelbert197/Frontier_toolbox_ROS2)
+To view the code or try it out yourself, check out my [Github Repository!](https://github.com/Schelbert197/Frontier_toolbox_ROS2)
 
 ### Main Software Components
   - slam_toolbox
@@ -49,9 +49,9 @@ The heart and soul of this project revolves around the frontier navigation packa
 ![decision_diagram]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_processing2.drawio.png)
 
 Based on this decision making process, this results in 5 unique algorithms:
-1. Goal position is the **closest single frontier** to the robots "viewpoint" which is x[m] in front of the robot. [More about this algorithm]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
+1. Goal position is the **closest single frontier** to the robots "viewpoint" which is x[m] in front of the robot. [Go to distance approach...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
 2. Goal position is the **single frontier with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
-3. Goal position is the **closest cluster centroid** after the frontiers have been clustered with DBSCAN. [More about this algorithm]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
+3. Goal position is the **closest cluster centroid** after the frontiers have been clustered with DBSCAN. [Go to DBSCAN calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#dbscan-clustering)
 4. Goal position is the **cluster centroid with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
 5. Goal position is the centroid of the cluster with the **largest number of frontiers**.
 
@@ -118,6 +118,40 @@ c* = \mathop{\mathrm{arg\,max}}_{c \in C}~U(p(x))_{t+1}
 $$
 
 Either way, so long as these functions are evaluated at the same place over the same visible area, they will return the same $f_{goal}$. To ensure that the calculation is realistic, the number of "flipped" cells or "learned" cells in these calculations is considered to be a circle of cells around the candidate location equivalent to the robot's viewable radius. This radius is based on the sensor on the robot and the mapper params set in slam_toolbox, therefore it is made to be a tunable parameter. Cells that are obstructed by occupied cells will not be considered in the state update calculation as they would not be updated if the robot were present at the location.
+
+When this algorithm is used in conjunction with DBSCAN clustering, the vector of frontiers $F$ is replaced with the vector of frontier cluster centroids and each of those is evaluated the same way. 
+
+#### DBSCAN Clustering
+To make this work, I implemented a version of DBSCAN, formally know as "Density-based spatial clustering of applications with noise" to cluster my frontiers. The logic flows as the following:
+
+**Input:**
+- `eps`: The maximum distance to consider two points as neighbors.
+- `min_samples`: The minimum number of neighbors required to make a point a core point.
+- `points`: A matrix of points (cv::Mat) where each row is a 2D point.
+
+**Steps:**
+1. Initialization:
+  - Labels for all points are initialized to -1 (noise).
+  - A variable cluster_id is used to assign unique IDs to clusters.
+2. Neighbor Calculation:
+  - The helper function find_neighbors calculates the indices of points within eps distance from a given point.
+  - Uses the Euclidean distance (cv::norm) between points.
+3. Logic:
+  - Iterate over each point:
+    - If already labeled, skip the point.
+    - Find its neighbors:
+      - If the number of neighbors is less than min_samples, mark the point as noise (-1).
+      - Else, start a new cluster:
+        - Assign the point to the current cluster ID.
+        - Expand the cluster by processing its neighbors:
+          - Points that were previously noise are re-labeled as part of the current cluster.
+          - Core points (neighbors with sufficient neighbors themselves) have their neighbors added to the expansion queue.
+          - If two clusters with different labels have perfectly adjacent neighbors (cells are bordering) they will be merged and relabeled allowing for continuous frontiers.
+4. Return:
+  - A map object containing an integer referring to the cluster ID corresponding to a vector of cells associated with that ID.
+5. Centroid Calculations:
+  - Once the clusters have been created, the custom struct populates the centroid vectors with the cell and world coordinates for each centroid location.
+
 
 ### Algorithm Comparisons
 Below are a series of videos showcasing the robot's exploration in a side-by-side manner for select algorithms. It is broken up into cluttered lab space, empty hallways, and simulated environments. Each environment presented different challenges that different pieces of my algorithms were created to address. Some of these are parameters that can be tuned in the `frontier_params.yaml` file based on the descriptions in the repository README.
