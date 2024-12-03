@@ -14,13 +14,13 @@ mathjax: true
 
 ## Project Overview
 ### Objective
-The goal of this project was to create an easy to use platform to assess the performance of robot frontier exploration in various environments with both full and limited field of view sensor data. Put simply, the question is "if I change the way that my robot moves, how does that affect it's ability to explore?". 
+The goal of this project was to create an easy to use platform to assess the performance of robot frontier exploration algorithms in various environments with both full and limited field of view sensor data. Put simply, the question is **"if I change the way that my robot moves and 'sees', how does that affect it's ability to explore?"**. 
 
 ### Scope
-To make this approachable and easy to use, I chose to use common platforms and packages that are widely used in the robotics community. In this specific case, I used `slam_toolbox` for map generation, the Nav2 stack for path planning and execution, and differential drive robots like the Clearpath Jackal and Turtlebot3 for testing. I have written 5 methods of frontier exploration to exhibit and compare different behaviors in the robot. Details on each are given below
+To make this approachable and easy to use, I chose to use common platforms and packages that are widely used in the robotics community. In this specific case, I used `slam_toolbox` for map generation, the Nav2 stack for path planning and execution, and differential drive robots like the Clearpath Jackal and Turtlebot3 for testing. I have written 5 methods of frontier exploration to exhibit and compare different behaviors in the robot. Details on each are given below [(skip ahead)]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#frontier-node-decision-making-process)
 
 ### Output
-All of my code is written as ROS2 packages that can be downloaded from GitHub and built from source. All code is written in C++ to minimize runtime delay and allow for more platform flexibility. Through the readme, any user should be able to build the packages and then use the lauch files to either run a full simulation or deploy frontier exploration on a real robot. 
+All of my code is written as ROS2 packages that can be downloaded from GitHub and built from source. All code is written in C++ to minimize runtime delay and allow for more platform flexibility. Through the README, any user should be able to build the packages and then use the lauch files to either run a full simulation or deploy frontier exploration on a real robot. 
 
 ### Source code
 [Github Repository](https://github.com/Schelbert197/Frontier_toolbox_ROS2)
@@ -33,8 +33,10 @@ All of my code is written as ROS2 packages that can be downloaded from GitHub an
   - Nav2 action client (`nav_client_cpp`) package
 
 ## Robot Setup
-The `robot_control` package includes several ROS2 nodes that allow the user to run slam_toolbox with some added features. The intercept node allows the user to dynamically change the FOV of the LaserScan message for study with low sensor data cases. By simply publisng with `ros2 topic pub /fov std_msgs/msg/Int64 "{data: <FOV_degrees>}"` the FOV of the LaserScan can be adjusted.
+The `robot_control` package includes several ROS2 nodes that allow the user to run slam_toolbox with some added features. The intercept node allows the user to dynamically change the FOV of the LaserScan message for study with low sensor data cases. By simply publishing with `ros2 topic pub /fov std_msgs/msg/Int64 "{data: <FOV_degrees>}"` the FOV of the LaserScan can be adjusted.
+
 ![limited_FOV_sim]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/robot_example.png)
+
 The pointcloud_to_laserscan node allows the user to easily convert 3D scans to 2D since slam_toolbox is a 2D LIDAR platform. This package also provides scripted paths for perfect repeatability in simulation.
 
 ## Interfacing With Nav2
@@ -47,11 +49,11 @@ The heart and soul of this project revolves around the frontier navigation packa
 ![decision_diagram]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_processing2.drawio.png)
 
 Based on this decision making process, this results in 5 unique algorithms:
-1. Goal position is the closest single frontier to the robots "viewpoint" which is x[m] in front of the robot. [More about this algorithm]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
-2. Goal position is the single frontier with the most information gain/entropy reduction if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
-3. Goal position is the closest cluster centroid after the frontiers have been clustered with DBSCAN. [More about this algorithm]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
-4. Goal position is the cluster centroid with the most information gain/entropy reduction if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
-5. Goal position is the centroid of the cluster with the largest number of frontiers.
+1. Goal position is the **closest single frontier** to the robots "viewpoint" which is x[m] in front of the robot. [More about this algorithm]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
+2. Goal position is the **single frontier with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
+3. Goal position is the **closest cluster centroid** after the frontiers have been clustered with DBSCAN. [More about this algorithm]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
+4. Goal position is the **cluster centroid with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
+5. Goal position is the centroid of the cluster with the **largest number of frontiers**.
 
 ### About the Algorithms
 Each algorithm performs differently which allows the robot to succeed in exploring various environments. Each one was judged based on a basis of learned map over time. 
@@ -118,10 +120,22 @@ $$
 Either way, so long as these functions are evaluated at the same place over the same visible area, they will return the same $f_{goal}$. To ensure that the calculation is realistic, the number of "flipped" cells or "learned" cells in these calculations is considered to be a circle of cells around the candidate location equivalent to the robot's viewable radius. This radius is based on the sensor on the robot and the mapper params set in slam_toolbox, therefore it is made to be a tunable parameter. Cells that are obstructed by occupied cells will not be considered in the state update calculation as they would not be updated if the robot were present at the location.
 
 ### Algorithm Comparisons
-Comparison videos
+Below are a series of videos showcasing the robot's exploration in a side-by-side manner for select algorithms. It is broken up into cluttered lab space, empty hallways, and simulated environments. Each environment presented different challenges that different pieces of my algorithms were created to address. Some of these are parameters that can be tuned in the `frontier_params.yaml` file based on the descriptions in the repository README.
 
-### Cluttered Lab Space
+#### Cluttered Lab Space
 <iframe width="560" height="315" src="https://www.youtube.com/embed/5Ng6XPTBBTw?si=wKbAj3N3oqxzQbzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+Apart from the clutter which created a lot of invalid paths and zones the robot is not allowed to traverse, the 
+
+#### Open 3rd Floor Hallways
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Py35fjqHmnc?si=O8k8MexQewFmcho9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 ### Results
-Plots
+Plots from various test runs were created to showcase the comparision between various methods. These plots show the learned map (known area) vs. time exploring. The color code is as follows in accordance with the [list above]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#frontier-node-decision-making-process):
+- **Orange:** Single cell naive distance calc (Method 1)
+- **Blue:** Single cell entropy calc (Method 2)
+- **Purple:** Clustering distance based calc (Method 3)
+- **Green:** Clustering with Entropy based calc (Method 4)
+- **Red:** Clustering where cluster size determines goal (Method 5)
+
+![entropy_value]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_per_time10.png)
