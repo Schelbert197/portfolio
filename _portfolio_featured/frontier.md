@@ -10,13 +10,17 @@ classes: wide
 mathjax: true
 ---
 ## Featured Video
-<iframe width="560" height="315" src="https://www.youtube.com/embed/tb6XYFM1r3c?si=1y1yYJZhaTsBZS6s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+**FINAL VIDEO GOES HERE**
 
 ## Project Overview
 ### Objective
-The goal of this project was to create an easy to use platform to assess the performance of robot frontier exploration algorithms in various environments with both full and limited field of view sensor data. Put simply, the question is **"if I change the way that my robot moves and 'sees', how does that affect it's ability to explore?"**. 
+The goal of this project was to create an easy to use platform to rapidly prototype the performance of robot frontier exploration algorithms in various environments with both full and limited field of view sensor data. Put simply, the question is **"if I change the way that my robot moves and 'sees', how does that affect it's ability to explore?"**. 
 
-### Scope
+### Scope NO more scope...
+Think about the algorithms as examples but the main idea is making autonomous exploration accessible. 
+Don't need to mention just slam_toolbox and nav2 as dependencies, they can also be any other map generation. 
+Despite multiple frontier algorithms, there exist key points allowing frontier exploration.
+List and map these components rather than talking about scopre. Show the "tools" in the toolbox. 6-7 line overview and video
 To make this approachable and easy to use, I chose to use common platforms and packages that are widely used in the robotics community. In this specific case, I used `slam_toolbox` for map generation, the Nav2 stack for path planning and execution, and differential drive robots like the Clearpath Jackal and Turtlebot3 for testing. I have written 5 methods of frontier exploration to exhibit and compare different behaviors in the robot. Details on each are given below [(skip ahead)]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#frontier-node-decision-making-process)
 
 ### Output
@@ -59,7 +63,13 @@ Based on this decision making process, this results in 5 unique algorithms:
 Each algorithm performs differently which allows the robot to succeed in exploring various environments. Each one was judged based on a basis of learned map over time. 
 
 #### Distance-based Approach
-The initial "naive" approach was to have the robot simply select a frontier that is closest to its "viewpoint". The purpose of the viewpoint is to encourage the robot to keep moving forward in a greedy depth-first approach. Once the robot hits a dead end, it then selects the next closest frontier. If the robot get's stuck, this algorithm exploits the "spin" motion in Nav2's recovery behaviors to hopefully choose a different frontier and successfully create a path. 
+The initial "naive" approach was to have the robot simply select a frontier that is closest to its "viewpoint". The purpose of the viewpoint is to encourage the robot to keep moving forward in a greedy depth-first approach. Once the robot hits a dead end, it then selects the next closest frontier. If the robot get's stuck, this algorithm exploits the "spin" motion in Nav2's recovery behaviors to hopefully choose a different frontier and successfully create a path.
+
+Mathematically, if we consider each candidate frontier cell location $f$ within $F = [f_1, f_2, ..., f_n]$ and $D(f_i)$ is the euclidean distance between the robot and frontier $f_i$ in map space, then the equation becomes:
+
+$$
+f_{goal} = \mathop{\mathrm{arg\,min}}_{i \in \{1, \ldots, n\}}~D(f_i)
+$$
 
 **Demo Video**
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NitHOxNSBRw?si=nitBtwbttR-mhmkm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -119,6 +129,8 @@ $$
 
 Either way, so long as these functions are evaluated at the same place over the same visible area, they will return the same $f_{goal}$. To ensure that the calculation is realistic, the number of "flipped" cells or "learned" cells in these calculations is considered to be a circle of cells around the candidate location equivalent to the robot's viewable radius. This radius is based on the sensor on the robot and the mapper params set in slam_toolbox, therefore it is made to be a tunable parameter. Cells that are obstructed by occupied cells will not be considered in the state update calculation as they would not be updated if the robot were present at the location.
 
+**DEMO VIDEO GOES HERE!!!**
+
 When this algorithm is used in conjunction with DBSCAN clustering, the vector of frontiers $F$ is replaced with the vector of frontier cluster centroids and each of those is evaluated the same way. 
 
 #### DBSCAN Clustering
@@ -152,6 +164,7 @@ To make this work, I implemented a version of DBSCAN, formally know as "Density-
 5. Centroid Calculations:
   - Once the clusters have been created, the custom struct populates the centroid vectors with the cell and world coordinates for each centroid location.
 
+**DEMO VIDEO GOES HERE!!!**
 
 ### Algorithm Comparisons
 Below are a series of videos showcasing the robot's exploration in a side-by-side manner for select algorithms. It is broken up into cluttered lab space, empty hallways, and simulated environments. Each environment presented different challenges that different pieces of my algorithms were created to address. Some of these are parameters that can be tuned in the `frontier_params.yaml` file based on the descriptions in the repository README.
