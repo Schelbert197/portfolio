@@ -8,12 +8,30 @@ header:
   teaser: /assets/images/final_project/crb_frontier1.png
 classes: wide
 mathjax: true
+gallery4428:
+  - url: /assets/images/final_project/frontier_demo.gif
+    image_path: /assets/images/final_project/frontier_demo.gif
+    alt: "Clustering Demo"
+    title: "Clustering Demo"
+  - url: /assets/images/final_project/frontier_demo2.gif
+    image_path: /assets/images/final_project/frontier_demo2.gif
+    alt: "Frontier Demo"
+    title: "Frontier Demo"
+gallery4429:
+  - url: /assets/images/final_project/frontier_example.png
+    image_path: /assets/images/final_project/frontier_example.png
+    alt: "Clustering Example"
+    title: "Clustering Example"
+  - url: /assets/images/final_project/hallway_frontier.png
+    image_path: /assets/images/final_project/hallway_frontier.png
+    alt: "Frontier Example Hallway"
+    title: "Frontier Example Hallway"
 ---
 ## Featured Video
 **FINAL VIDEO GOES HERE**
 
 ## Project Overview
-The goal of this project was to create an easy to use platform to rapidly prototype frontier exploration algorithms on a robot in various environments with both full and limited field of view sensor data. Through this package, users should be able to easily use the provided libraries to generate, cluster, and evaluate frontiers or integrate the provided functions into their own novel approaches. 
+The goal of this project was to create an easy-to-use platform to **rapidly prototype frontier exploration algorithms** on a robot in various environments with both full and limited field of view sensor data. Through this package, users should be able to easily leverage the provided libraries to generate, cluster, and evaluate frontiers or integrate the provided component functions into their own novel approaches. 
 
 There are many frontier algorithms out there, but all of them follow the same pattern:
 1. **Identify** frontier cells that mark the boundary of the known map space.
@@ -22,7 +40,7 @@ There are many frontier algorithms out there, but all of them follow the same pa
 
 Using this framework, the provided frontier node follows the general structure in this diagram to make the robot explore using the tools in the frontier toolbox.
 
-![General Structure]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram1_2.drawio.png)
+![General_Structure]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram1_2.drawio.png)
 
 <!-- Think about the algorithms as examples but the main idea is making autonomous exploration accessible. 
 Don't need to mention just slam_toolbox and nav2 as dependencies, they can also be any other map generation. 
@@ -30,7 +48,7 @@ Despite multiple frontier algorithms, there exist key points allowing frontier e
 List and map these components rather than talking about scopre. Show the "tools" in the toolbox. 6-7 line overview and video -->
 
 ### Output
-This project provides a ROS2 node exhibiting 5 examples of robot exploration by mix-and-matching the various library functions. [(skip ahead to featured algorithms)]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#navigation-algorithms). All of my code is written as ament_cmake ROS2 packages that can be downloaded from GitHub and built from source. Through the README, any user should be able to build the packages and then use the lauch files to either run a full simulation or deploy frontier exploration on a real robot. In my case, this was the Clearpath Jackal.
+This project provides a ROS2 node exhibiting multiple examples of robot exploration by mix-and-matching the various library functions. [(skip ahead to featured algorithms)]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#navigation-algorithms). All of my code is written as ament_cmake ROS2 packages that can be downloaded from GitHub and built from source. Through the README, any user should be able to build the packages and then use the lauch files to either run a full simulation or deploy frontier exploration on a real robot. In my case, this was the Clearpath Jackal.
 
 ### Source code
 To view the code or try it out yourself, check out my [Github Repository!](https://github.com/Schelbert197/Frontier_toolbox_ROS2)
@@ -42,24 +60,39 @@ To view the code or try it out yourself, check out my [Github Repository!](https
 
 
 ## Frontier Navigation
-The heart and soul of this project revolves around the frontier navigation package `frontier_exp_cpp` which exhibits 5 unique frontier exploration algorithms as well as an easy-to-use library of functions to calculate frontiers, clusters, and plan optimal goal positions. When using my `frontier_lc` lifecycle node, a user can select the algorithm by adjusting parameters in the `frontier_params.yaml` file. The decision tree is shown below.
+{% include gallery id="gallery4428" %}
+
+The heart and soul of this project revolves around the frontier navigation package `frontier_exp_cpp` which exhibits unique frontier exploration algorithms as well as an easy-to-use library of functions to calculate frontiers, clusters, and plan optimal goal positions. When using my `frontier_lc` lifecycle node, a user can select the algorithm by adjusting parameters in the `frontier_params.yaml` file. The decision tree is shown below.
 
 ### Navigation Algorithms
+Through the library, many different exploration algorithms were tested by interchanging functions from the general structure diagram. Some of the selected examples are shown below. To see more about the results from this testing, which focused mostly on the scoring of the candidates, feel free to skip ahead to the [results section.]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#results)
 <!-- ![decision_diagram]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_processing2.drawio.png) -->
 
-Below are the 5 featured algorithms tested and included as a part of the `frontier_lc` lifecycle node:
-1. Goal position is the **closest single frontier** to the robots "viewpoint" which is x[m] in front of the robot. [Go to distance approach...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
-2. Goal position is the **single frontier with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
-3. Goal position is the **closest cluster centroid** after the frontiers have been clustered with DBSCAN. [Go to DBSCAN calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#dbscan-clustering)
-4. Goal position is the **cluster centroid with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
-5. Goal position is the centroid of the cluster with the **largest number of frontiers**.
+Below are featured algorithms tested and included as a part of the `frontier_lc` lifecycle node. The diagrams below show how mixing and matching can easily construct new algorithms:
+- Goal position is the **closest single frontier** to the robots "viewpoint" which is x[m] in front of the robot. [Go to distance approach...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-selection)
+![Algorithm_flow1]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram_dist1.drawio.png)
+- Goal position is the **single frontier with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-selection)
+![Algorithm_flow2]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram_mi1.drawio.png)
+- Goal position is the **closest cluster centroid** after the frontiers have been clustered with DBSCAN. [Go to DBSCAN calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#dbscan-clustering)
+![Algorithm_flow3]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram_distc.drawio.png)
+- Goal position is the **cluster centroid with the most information gain/entropy reduction** if the robot were to be teleported there.
+![Algorithm_flow4]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram_mic.drawio.png)
+- Goal position is the centroid of the cluster with the **largest number of frontiers**.
+![Algorithm_flow5]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram_sizec.drawio.png)
+- Goal position is the **frontier within a sampled set with the most "unknowns flipped"** in the state update. [See unknown flipping...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-selection)
+![Algorithm_flow6]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram_misamp.drawio.png)
 
-![Algorithm flow]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram2.drawio.png)
 
-### About the Algorithms
-Each algorithm performs differently which allows the robot to succeed in exploring various environments. Each one was judged based on a basis of learned map over time. 
+### Key Computations
+Each algorithm performs differently which allows the robot to succeed in exploring various environments. Some of the key components that make up the frontier toolbox are the generation of frontiers, the distance based goal selection, the Mutual Information based selection, and the clustering algorithm.
+#### Frontier Generation
+This approach defines a frontier as a cell that is unknown in the map (-1 in the OccupancyGrid) and is also bordering a cell that is known to be empty (0 in the OccupancyGrid). Since the data is just a 1D array, generating the list of frontiers is O(n). In the image, below, the frontiers are shown on the map in purple. The blue clouds indicate the cost of approaching static objects (occupied cells) shown in pink (100 in the OccupancyGrid).
 
-#### Distance-based Approach
+{% include gallery id="gallery4429" %}
+
+If the map size is large, and the scoring algorithm benefits from a fixed sample size, then a list of frontiers uniformly sampled can be generated and used in place of the full list of frontiers using the provided sample function.
+
+#### Distance-based Selection
 The initial "naive" approach was to have the robot simply select a frontier that is closest to its "viewpoint". The purpose of the viewpoint is to encourage the robot to keep moving forward in a greedy depth-first approach. Once the robot hits a dead end, it then selects the next closest frontier. If the robot get's stuck, this algorithm exploits the "spin" motion in Nav2's recovery behaviors to hopefully choose a different frontier and successfully create a path.
 
 Mathematically, if we consider each candidate frontier cell location $f$ within $F = [f_1, f_2, ..., f_n]$ and $D(f_i)$ is the euclidean distance between the robot and frontier $f_i$ in map space, then the equation becomes:
@@ -71,7 +104,7 @@ $$
 **Demo Video**
 <iframe width="560" height="315" src="https://www.youtube.com/embed/NitHOxNSBRw?si=nitBtwbttR-mhmkm" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-#### Mutual Information Approach
+#### Mutual Information Selection
 The goal of this approach is to choose locations that maximize information gain or minimize entropy by calculating the greatest entropy reduction at any specific location. If we let $x$ refer to the state of a cell within the robot's `OccupancyGrid` Map. If we want to know whether a cell is occupied, then we can refer to the cell's probability as $p(x)$ where:
 
 $$
