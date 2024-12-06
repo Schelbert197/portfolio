@@ -5,7 +5,7 @@ key: 1
 toc: true
 excerpt: "Frontier Exploration, SLAM, Navigation, ROS2, Nav2"
 header:
-  teaser: /assets/images/final_project/crb_frontier1.png
+  teaser: /assets/images/final_project/frontier_demo2.gif
 classes: wide
 mathjax: true
 gallery4428:
