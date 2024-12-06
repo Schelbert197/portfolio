@@ -13,51 +13,48 @@ mathjax: true
 **FINAL VIDEO GOES HERE**
 
 ## Project Overview
-### Objective
-The goal of this project was to create an easy to use platform to rapidly prototype the performance of robot frontier exploration algorithms in various environments with both full and limited field of view sensor data. Put simply, the question is **"if I change the way that my robot moves and 'sees', how does that affect it's ability to explore?"**. 
+The goal of this project was to create an easy to use platform to rapidly prototype frontier exploration algorithms on a robot in various environments with both full and limited field of view sensor data. Through this package, users should be able to easily use the provided libraries to generate, cluster, and evaluate frontiers or integrate the provided functions into their own novel approaches. 
 
-### Scope NO more scope...
-Think about the algorithms as examples but the main idea is making autonomous exploration accessible. 
+There are many frontier algorithms out there, but all of them follow the same pattern:
+1. **Identify** frontier cells that mark the boundary of the known map space.
+2. **Group** or cluster them together to create continuous boundaries for the robot to explore.
+3. **Plan** the robot's next move by selecting the best place to go.
+
+Using this framework, the provided frontier node follows the general structure in this diagram to make the robot explore using the tools in the frontier toolbox.
+
+![General Structure]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram1_2.drawio.png)
+
+<!-- Think about the algorithms as examples but the main idea is making autonomous exploration accessible. 
 Don't need to mention just slam_toolbox and nav2 as dependencies, they can also be any other map generation. 
 Despite multiple frontier algorithms, there exist key points allowing frontier exploration.
-List and map these components rather than talking about scopre. Show the "tools" in the toolbox. 6-7 line overview and video
-To make this approachable and easy to use, I chose to use common platforms and packages that are widely used in the robotics community. In this specific case, I used `slam_toolbox` for map generation, the Nav2 stack for path planning and execution, and differential drive robots like the Clearpath Jackal and Turtlebot3 for testing. I have written 5 methods of frontier exploration to exhibit and compare different behaviors in the robot. Details on each are given below [(skip ahead)]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#frontier-node-decision-making-process)
+List and map these components rather than talking about scopre. Show the "tools" in the toolbox. 6-7 line overview and video -->
 
 ### Output
-All of my code is written as ROS2 packages that can be downloaded from GitHub and built from source. All code is written in C++ to minimize runtime delay and allow for more platform flexibility. Through the README, any user should be able to build the packages and then use the lauch files to either run a full simulation or deploy frontier exploration on a real robot. 
+This project provides a ROS2 node exhibiting 5 examples of robot exploration by mix-and-matching the various library functions. [(skip ahead to featured algorithms)]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#navigation-algorithms). All of my code is written as ament_cmake ROS2 packages that can be downloaded from GitHub and built from source. Through the README, any user should be able to build the packages and then use the lauch files to either run a full simulation or deploy frontier exploration on a real robot. In my case, this was the Clearpath Jackal.
 
 ### Source code
 To view the code or try it out yourself, check out my [Github Repository!](https://github.com/Schelbert197/Frontier_toolbox_ROS2)
 
 ### Main Software Components
-  - slam_toolbox
-  - Nav2 Stack
   - Robot setup (`robot_control`) package
   - frontier exploration (`frontier_exp_cpp`) package
   - Nav2 action client (`nav_client_cpp`) package
 
-## Robot Setup
-The `robot_control` package includes several ROS2 nodes that allow the user to run slam_toolbox with some added features. The intercept node allows the user to dynamically change the FOV of the LaserScan message for study with low sensor data cases. By simply publishing with `ros2 topic pub /fov std_msgs/msg/Int64 "{data: <FOV_degrees>}"` the FOV of the LaserScan can be adjusted.
-
-![limited_FOV_sim]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/robot_example.png)
-
-The pointcloud_to_laserscan node allows the user to easily convert 3D scans to 2D since slam_toolbox is a 2D LIDAR platform. This package also provides scripted paths for perfect repeatability in simulation.
-
-## Interfacing With Nav2
-The Nav2 stack is easy to use and can be utilized by simply publishing on the `/goal_pose` ROS2 topic, but for further control and and a closed feedback loop, I have created a package `nav_client_cpp` to handle action feedback. Unlike simply publishing on the `/goal_pose` topic, this allows for replanning upon failure, and diagnostic printouts. Through topics and service calls, this package can easily interface with a planner node/package.
 
 ## Frontier Navigation
-The heart and soul of this project revolves around the frontier navigation package `frontier_exp_cpp` which exhibits 5 unique frontier exploration algorithms as well as an easy-to-use library of functions if a user would like to import the functions to calculate frontiers, clusters, or other values within their own nodes. When using my `frontier_lc` lifecycle node, a user can select the algorithm by adjusting parameters in the `frontier_params.yaml` file. The decision tree is shown below.
+The heart and soul of this project revolves around the frontier navigation package `frontier_exp_cpp` which exhibits 5 unique frontier exploration algorithms as well as an easy-to-use library of functions to calculate frontiers, clusters, and plan optimal goal positions. When using my `frontier_lc` lifecycle node, a user can select the algorithm by adjusting parameters in the `frontier_params.yaml` file. The decision tree is shown below.
 
-### Frontier Node Decision Making Process
-![decision_diagram]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_processing2.drawio.png)
+### Navigation Algorithms
+<!-- ![decision_diagram]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_processing2.drawio.png) -->
 
-Based on this decision making process, this results in 5 unique algorithms:
+Below are the 5 featured algorithms tested and included as a part of the `frontier_lc` lifecycle node:
 1. Goal position is the **closest single frontier** to the robots "viewpoint" which is x[m] in front of the robot. [Go to distance approach...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#distance-based-approach)
 2. Goal position is the **single frontier with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
 3. Goal position is the **closest cluster centroid** after the frontiers have been clustered with DBSCAN. [Go to DBSCAN calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#dbscan-clustering)
 4. Goal position is the **cluster centroid with the most information gain/entropy reduction** if the robot were to be teleported there. [Go to entropy calculation...]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#mutual-information-approach)
 5. Goal position is the centroid of the cluster with the **largest number of frontiers**.
+
+![Algorithm flow]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_diagram2.drawio.png)
 
 ### About the Algorithms
 Each algorithm performs differently which allows the robot to succeed in exploring various environments. Each one was judged based on a basis of learned map over time. 
@@ -80,7 +77,7 @@ The goal of this approach is to choose locations that maximize information gain 
 $$
 p(x) = 
 \left\{
-\begin{array}{ll}
+  \begin{array}{ll}
 v & \text{if } x \text{ is occupied,} \\
 1 - v & \text{if } x \text{ is free.}
 \end{array}
@@ -99,7 +96,7 @@ where $X$ is the set of all states of the cell $$\{0,1\}$$ representing free and
 $$
 H(p(x)) = -
 [
-(v*log(v)) + ((1-v) * log(1-v))
+  (v*log(v)) + ((1-v) * log(1-v))
 ]
 $$
 
@@ -186,3 +183,13 @@ Plots from various test runs were created to showcase the comparision between va
 - **Red:** Clustering where cluster size determines goal (Method 5)
 
 ![entropy_value]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_per_time10.png)
+
+## Robot Setup
+The `robot_control` package includes several ROS2 nodes that allow the user to run slam_toolbox with some added features. The intercept node allows the user to dynamically change the FOV of the LaserScan message for study with low sensor data cases. By simply publishing with `ros2 topic pub /fov std_msgs/msg/Int64 "{data: <FOV_degrees>}"` the FOV of the LaserScan can be adjusted.
+
+![limited_FOV_sim]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/robot_example.png)
+
+The pointcloud_to_laserscan node allows the user to easily convert 3D scans to 2D since slam_toolbox is a 2D LIDAR platform. This package also provides scripted paths for perfect repeatability in simulation.
+
+## Interfacing With Nav2
+The Nav2 stack is easy to use and can be utilized by simply publishing on the `/goal_pose` ROS2 topic, but for further control and and a closed feedback loop, I have created a package `nav_client_cpp` to handle action feedback. Unlike simply publishing on the `/goal_pose` topic, this allows for replanning upon failure, and diagnostic printouts. Through topics and service calls, this package can easily interface with a planner node/package.
