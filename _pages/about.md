@@ -16,12 +16,15 @@ My most recent project involves creating an autonomous roadsalt spreading robot 
 <table>
   <tbody>
     <tr>
+      <td style="border-bottom-width:0;"><img src="{{site.baseurl}}/assets/images/sei.jpeg" alt="sei" width="60"></td>
+      <td style="border-bottom-width:0;">
+      <strong>CMU Software Engineering Institute</strong> <br> 01/2025 - Present <br> Associate Autonomy Engineer</td>
       <td style="border-bottom-width:0;"><img src="{{site.baseurl}}/assets/images/hitachi.png" alt="hitachi" width="60"></td>
       <td style="border-bottom-width:0;">
       <strong>Hitachi Rail STS</strong> <br> 06/2022 - 08/2023 <br> Associate Hardware Engineer</td>
       <td style = "border-bottom-width:0;"><img src="{{site.baseurl}}/assets/images/gather.png" alt="gather" width="60"></td>
       <td style = "border-bottom-width:0;">
-      <strong>Gather AI</strong> <br> 11/2020 - 06/2022 <br> Deployment/Field Operations Engineer</td>
+      <strong>Gather AI</strong> <br> 11/2020 - 06/2022 <br> Field Ops Engineer (Robotics)</td>
     </tr>
   </tbody>
 </table>
@@ -45,10 +48,18 @@ My most recent project involves creating an autonomous roadsalt spreading robot 
 
 ## My Robotics Story
 
+### Getting Started
+I first experienced robotics in grade school creating combat robots using the LEGO Mindstorm NXT system. I enjoyed the blend of hardware and software challenges that pushed me to be more creative in my approach. Soon after, I participated in Carnegie Mellon's <a href="https://www.cs.cmu.edu/~leap/" target="_blank" rel="noopener noreferrer">"Andrew's Leap"</a> summer program making robots using Arduino boards. During this program, I made laser tag blasters, maze solving robots, and a system that identified firefly species by the flash pattern. This exposure to real hardware and software sparked an ongoing interest in the field.
+
+#### My First Real Robot!
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PdYEdyLexsg?si=dBtEkiubt7kCBmCq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+This robot was my first mobile robot written with real code. It runs a simple wall following algorithm on an Arduino Uno board sitting on a laser cut chassis. It uses infrared sensors to navigate with a bump sensor to acknowledge if it touches the righthand wall. While this robot was rudimentary in execution, it inspired my interest in mobile robots!
+
 ### Professional Experiences
 
 #### Gather AI
-Professionally, I began working at Gather AI, a robotics startup committed to solving the data needs of logistics companies through drone-based inventory. While there, I had the privilege of fulfilling many roles in order to help the company succeed. I established processes and authored documentation that allowed Gather to reduce deployment times from months to days. I also was able to develop an autonomous charge pad that allowed customers to scan thousands of locations during off-shift hours without any human intervention. Lastly, I was heavily involved in creating tools to ensure that new features were backwards compatible as the company expanded in capabiliity and customer base. 
+Professionally, I began working at <a href="https://www.gather.ai/" target="_blank" rel="noopener noreferrer">Gather AI</a>, a robotics startup committed to solving the data needs of logistics companies through drone-based inventory. While there, I had the privilege of fulfilling many roles in order to help the company succeed. I established processes and authored documentation that allowed Gather to reduce deployment times from months to days. I also was able to develop an autonomous charge pad that allowed customers to scan thousands of locations during off-shift hours without any human intervention. Lastly, I was heavily involved in creating tools to ensure that new features were backwards compatible as the company expanded in capabiliity and customer base. 
 
 Check out this video to see the customer success!
 <iframe width="560" height="315" src="https://www.youtube.com/embed/94Nowr9WWps?si=v7kZrWAqWkP_EhJP" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -56,13 +67,8 @@ Check out this video to see the customer success!
 #### Hitachi Rail STS
 At Hitachi I designed signals, switch machines, and other ground equipment necessary to keep trains on the right tracks at the right time. Along with these designs, I authored much of the techical documentation associated with these designs to ensure fidelity of the design, manufacturing, and assembly. The most notable projects I worked on include a second generation switch machine, Hitachi's flagship product, and 6-in LED signals. These projects required significant testing, documentation, and communication with clientele making them high-profile projects within the company.
 
-### Getting Started
-I first experienced robotics in grade school creating combat robots using the LEGO Mindstorm NXT system. I enjoyed the blend of hardware and software challenges that pushed me to be more creative in my approach. Soon after, I participated in Carnegie Mellon's "Andrew's Leap" summer program making robots using Arduino boards. During this program, I made laser tag blasters, maze solving robots, and a system that identified firefly species by the flash pattern. This exposure to real hardware and software sparked an ongoing interest in the field.
-
-#### My First Real Robot!
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PdYEdyLexsg?si=dBtEkiubt7kCBmCq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-This robot was my first mobile robot written with real code. It runs a simple wall following algorithm on an Arduino Uno board sitting on a laser cut chassis. It uses infrared sensors to navigate with a bump sensor to acknowledge if it touches the righthand wall. While this robot was rudimentary in execution, it inspired my interest in mobile robots!
+#### Carnegie Mellon Software Engineering Institute
+As a part of my MS in Robotics experience, I elected to do an internship to further expand my skills and network in the field. I was fortunate enough to work as an **Autonomy Lab Intern** within the <a href="https://www.sei.cmu.edu/about/divisions/artificial-intelligence-division/" target="_blank" rel="noopener noreferrer">Artificial Intelligence Division at the Software Engineering Institute (SEI).</a> While there, I brought up a robotics development environment for engineers to prototype work using ROS2 and Nvidia IsaacSim. After a productive and engaging summer, I decided to return as a full time **Autonomy Engineer** to continue the reasearch and development goals of the Autonomy Lab!
 
 ## Leadership
 
