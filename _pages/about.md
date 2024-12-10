@@ -3,6 +3,15 @@ permalink: /about/
 title: "About"
 toc: true
 classes: wide
+gallery4333:
+  - url: /assets/images/dad_vails18.jpg
+    image_path: /assets/images/dad_vails18.jpg
+    alt: "Dad Vail Regatta 2018"
+    title: "Dad Vail Regatta 2018"
+  - url: /assets/images/knecht8_19.png
+    image_path: /assets/images/knecht8_19.png
+    alt: "Knecht Cup 2019"
+    title: "Knecht Cup 2019"
 ---
 
 ![saltbot_pose]({{ site.url }}{{ site.baseurl }}/assets/images/saltbot_pose.jpg)
@@ -74,6 +83,8 @@ As a part of my MS in Robotics experience, I elected to do an internship to furt
 
 ### Rowing
 For 9 years, I competed in the sport of rowing, and had the privilege to compete at the high school, collegiate, and club levels of racing. These years taught me lessons in consistency, grit, and time management, all of which were prerequisites for the medals earned. During my time competing, I was granted the honor of Team Captain both in high school and college for my commitment to the team and efforts to lead by example. I also was chosen to be my college team's Equipment Manager due to my organizational skills and technical understanding of repairs, purchasing, and care for the equipment in our fleet. 
+
+{% include gallery id="gallery4333" %}
 
 ### Coaching
 Apart from strict competition, I also had the opportunity to take up coaching for 6 years at the high school and collegiate levels. Teaching and sharing knowledge is a passion of mine, and having the ability to shape young athletes into fierce competitors has been a real treat. At the high school level, I have been able guide students to recruitment at colleges of their choice. At the collegiate level, I have been able to push my athletes to compete on the national level against their fellow students. Seeing these athletes compete and win against their peers has brought me a lot of joy both from the impact I have been able to make as well as from the feelings I know we have shared during races. Igniting curiosity and a willingness to succeed is a trait I hope to bring to any team in which I participate, and while I focus solely on robotics, I am excited for those opportunities that lie ahead.
