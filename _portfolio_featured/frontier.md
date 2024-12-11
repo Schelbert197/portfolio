@@ -35,6 +35,24 @@ gallery4430:
     image_path: /assets/images/final_project/cluster_example2.png
     alt: "Clustering Example Hallway"
     title: "Clustering Example Hallway"
+gallery4431:
+  - url: /assets/images/final_project/crb_entropy.gif
+    image_path: /assets/images/final_project/crb_entropy.gif
+    alt: "Mutual Information CRB"
+    title: "Mutual Information CRB"
+  - url: /assets/images/final_project/fl3_entropy2.gif
+    image_path: /assets/images/final_project/fl3_entropy2.gif
+    alt: "Mutual Information floor3"
+    title: "Mutual Information floor3"
+gallery4432:
+  - url: /assets/images/final_project/crb_cluster1.gif
+    image_path: /assets/images/final_project/crb_cluster1.gif
+    alt: "Clustering CRB"
+    title: "Clustering CRB"
+  - url: /assets/images/final_project/crb_cluster2.gif
+    image_path: /assets/images/final_project/crb_cluster2.gif
+    alt: "Clustering CRB 2"
+    title: "Clustering CRB 2"
 ---
 ## Featured Video
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4t7K3hyisQk?si=eD31e2DiFHeh-P8S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -73,7 +91,7 @@ To view the code or try it out yourself, check out my <a href="https://github.co
 The heart and soul of this project revolves around the frontier navigation package `frontier_exp_cpp` which exhibits unique frontier exploration algorithms as well as an easy-to-use library of functions to calculate frontiers, clusters, and plan optimal goal positions. When using my `frontier_lc` lifecycle node, a user can select the algorithm by adjusting parameters in the `frontier_params.yaml` file. The decision tree is shown below.
 
 ### Navigation Algorithms
-Through the library, many different exploration algorithms were tested by interchanging functions from the general structure diagram. Some of the selected examples are shown below. To see more about the results from this testing, which focused mostly on the scoring of the candidates, feel free to skip ahead to the [results section.]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#results)
+Through the library, many different exploration algorithms were tested by interchanging functions from the general structure diagram. Some of the selected examples are shown below. To see more about the results from this testing, which focused mostly on the scoring of the candidates, feel free to skip ahead to the [results section.]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/#algorithm-comparisons-and-results)
 <!-- ![decision_diagram]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_processing2.drawio.png) -->
 
 Below are featured algorithms tested and included as a part of the `frontier_lc` lifecycle node. The diagrams below show how mixing and matching can easily construct new algorithms:
@@ -92,7 +110,7 @@ Below are featured algorithms tested and included as a part of the `frontier_lc`
 
 
 ### Key Computations
-Each algorithm performs differently which allows the robot to succeed in exploring various environments. Some of the key components that make up the frontier toolbox are the generation of frontiers, the distance based goal selection, the Mutual Information based selection, and the clustering algorithm.
+Each algorithm relies on key computations allowing the robot to succeed in exploring various environments. Some of the key components that make up the frontier toolbox are the generation of frontiers, the distance based goal selection, the Mutual Information based goal selection, and the DBSCAN clustering algorithm.
 #### Frontier Generation
 This approach defines a frontier as a cell that is unknown in the map (-1 in the OccupancyGrid) and is also bordering a cell that is known to be empty (0 in the OccupancyGrid). Since the data is just a 1D array, generating the list of frontiers is O(n). In the image, below, **the frontiers are shown on the map in purple**. The blue clouds indicate the cost of approaching static objects (occupied cells) shown in pink (100 in the OccupancyGrid).
 
@@ -101,7 +119,7 @@ This approach defines a frontier as a cell that is unknown in the map (-1 in the
 If the map size is large, and the scoring algorithm benefits from a fixed sample size, then a list of frontiers uniformly sampled can be generated and used in place of the full list of frontiers using the provided sample function.
 
 #### Distance-based Selection
-The initial "naive" approach was to have the robot simply select a frontier that is closest to its "viewpoint". The purpose of the viewpoint is to encourage the robot to keep moving forward in a greedy depth-first approach. Once the robot hits a dead end, it then selects the next closest frontier. If the robot get's stuck, this algorithm exploits the "spin" motion in Nav2's recovery behaviors to hopefully choose a different frontier and successfully create a path.
+The initial "naive" approach was to have the robot simply select a frontier that is closest to its "viewpoint" which is a point slightly in front of the robot. The purpose of the viewpoint is to encourage the robot to keep moving forward in a greedy depth-first approach. Once the robot hits a dead end, it then selects the next closest frontier. If the robot get's stuck, this algorithm exploits the "spin" motion in Nav2's recovery behaviors to hopefully choose a different frontier and successfully create a path.
 
 Mathematically, if we consider each candidate frontier cell location $f$ within $F = [f_1, f_2, ..., f_n]$ and $D(f_i)$ is the euclidean distance between the robot and frontier $f_i$ in map space, then the equation becomes:
 
@@ -165,14 +183,17 @@ $$
 c* = \mathop{\mathrm{arg\,max}}_{c \in C}~U(p(x))_{t+1}
 $$
 
-Either way, so long as these functions are evaluated at the same place over the same visible area, they will return the same $f_{goal}$. To ensure that the calculation is realistic, the number of "flipped" cells or "learned" cells in these calculations is considered to be a circle of cells around the candidate location equivalent to the robot's viewable radius. This radius is based on the sensor on the robot and the mapper params set in slam_toolbox, therefore it is made to be a tunable parameter. Cells that are obstructed by occupied cells will not be considered in the state update calculation as they would not be updated if the robot were present at the location.
+Either way, so long as these functions are evaluated at the same place over the same visible area, both $U$ and $H$ will return the same $f_{goal}$. 
 
-**DEMO VIDEO GOES HERE!!!**
+To ensure that the calculation is realistic, the number of "flipped" cells or "learned" cells in these calculations is considered to be a circle of cells around the candidate location equivalent to the robot's viewable radius. This radius is based on the sensor on the robot and the mapper params set in slam_toolbox, therefore it is made to be a tunable parameter. Cells that are obstructed by occupied cells will not be considered in the state update calculation as they would not be updated if the robot were present at the location.
+
+{% include gallery id="gallery4431" %}
 
 When this algorithm is used in conjunction with DBSCAN clustering, the vector of frontiers $F$ is replaced with the vector of frontier cluster centroids and each of those is evaluated the same way. 
 
 #### DBSCAN Clustering
-To make this work, I implemented a version of DBSCAN, formally know as "Density-based spatial clustering of applications with noise" to cluster my frontiers. The logic flows as the following:
+{% include gallery id="gallery4432" %}
+To make this work, I implemented a version of **DBSCAN**, formally know as "Density-Based Spatial Clustering of Applications with Noise" to cluster my frontiers. The logic flows as the following:
 
 **Input:**
 - `eps`: The maximum distance to consider two points as neighbors.
@@ -181,20 +202,18 @@ To make this work, I implemented a version of DBSCAN, formally know as "Density-
 
 **Steps:**
 1. Initialization:
-  - Labels for all points are initialized to -1 (noise).
-  - A variable cluster_id is used to assign unique IDs to clusters.
+  - Label all frontier cluster_ids as -1 (noise), then change the ID as they are associated with a cluster.
 2. Neighbor Calculation:
-  - The helper function find_neighbors calculates the indices of points within eps distance from a given point.
-  - Uses the Euclidean distance (cv::norm) between points.
+  - The helper function `find_neighbors` calculates the indices of points within `eps` distance from a given point using the Euclidean distance (cv::norm) between points.
 3. Logic:
   - Iterate over each point:
     - If already labeled, skip the point.
     - Find its neighbors:
-      - If the number of neighbors is less than min_samples, mark the point as noise (-1).
+      - If the number of neighbors is less than `min_samples`, mark the point as noise (-1).
       - Else, start a new cluster:
         - Assign the point to the current cluster ID.
         - Expand the cluster by processing its neighbors:
-          - Points that were previously noise are re-labeled as part of the current cluster.
+          - Points previously labled as noise are re-labeled as part of the current cluster.
           - Core points (neighbors with sufficient neighbors themselves) have their neighbors added to the expansion queue.
           - If two clusters with different labels have perfectly adjacent neighbors (cells are bordering) they will be merged and relabeled allowing for continuous frontiers.
 4. Return:
@@ -205,21 +224,8 @@ To make this work, I implemented a version of DBSCAN, formally know as "Density-
 {% include gallery id="gallery4430" %}
 The above images show the clusters generated by the algorithm. Each cluster appears as a random color, and the number in white represents the cluster ID positioned at the centroid of the cluster.
 
-### Algorithm Comparisons
-Below are a series of videos showcasing the robot's exploration in a side-by-side manner for select algorithms. It is broken up into cluttered lab space, empty hallways, and simulated environments. Each environment presented different challenges that different pieces of my algorithms were created to address. Some of these are parameters that can be tuned in the `frontier_params.yaml` file based on the descriptions in the repository README.
-
-#### Cluttered Lab Space
-<iframe width="560" height="315" src="https://www.youtube.com/embed/5Ng6XPTBBTw?si=wKbAj3N3oqxzQbzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-This video showcases that each algorithm was able to autonomously explore and map the environment in spite of the clutter and invalid paths created due to the clutter. The more greedy algorithms seemed to perform the fastest as seen by the amount each video was sped up.  
-
-#### Open 3rd Floor Hallways
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Py35fjqHmnc?si=O8k8MexQewFmcho9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-In a longer, less featured space like this hallway, all algorithms performed well, though the mutual information approach showed more indecisive behavior. Due to the doubling back resulting from the indecisiveness, the algorithm was slower, but it did decided to explore both corridors which has merit. 
-
-### Results
-Plots from various test runs were created to showcase the comparision between various methods. These plots show the learned map (known area) vs. time exploring. The color code is as follows:
+### Algorithm Comparisons and Results
+By bagging the data, the learned map (known area) vs. search duration could be plotted to evaluate exploration performance. The color code is as follows:
 - **Orange:** Single cell naive distance calc (Method 1)
 - **Blue:** Single cell entropy calc (Method 2)
 - **Purple:** Clustering distance based calc (Method 3)
@@ -228,7 +234,21 @@ Plots from various test runs were created to showcase the comparision between va
 
 ![entropy_value]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_per_time10.png)
 
-What these plots indicate is that of the various exploration algorithms prototyped, some performed better than others. Selecting the closest frontiers/clusters and the largest clusters proved to be very effective ways of getting a robot to autonomously navigate without large state machines or multi-planner ensembles.
+What these plots indicate is that the more "greedy" exploration algorithms performed better than those focused on longer time horizons in less cluttered or less featured spaces. More complicated areas like the lab space allowed the robot to explore areas that the greedier algorithms would miss. Selecting the closest frontiers/clusters and the largest clusters proved to be very effective ways of getting a robot to autonomously navigate without large state machines or multi-planner ensembles.
+
+Below are a series of videos showcasing the robot's exploration in a side-by-side manner for select algorithms. It is broken up into cluttered lab space, empty hallways, and simulated environments. Each environment presented different challenges that different pieces of my algorithms were created to address. Some of these are parameters that can be tuned in the `frontier_params.yaml` file based on the descriptions in the repository README.
+
+#### Cluttered Lab Space
+<iframe width="560" height="315" src="https://www.youtube.com/embed/5Ng6XPTBBTw?si=wKbAj3N3oqxzQbzA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+This video showcases that each algorithm was able to autonomously explore and map the environment in spite of the clutter and invalid paths created due to the clutter. The more greedy algorithms seemed to perform the fastest (as seen by the amount each video was sped up) though as the plotted data indicates, sometimes the greedy algorithms required backtracking from deep corridors.  
+
+**NOTE:** Due to dynamic conditions of the lab space, not all test runs provided the same area for the robot to explore.
+
+#### Open 3rd Floor Hallways
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Py35fjqHmnc?si=O8k8MexQewFmcho9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+In a longer, less featured space like this hallway, all algorithms performed well, though the mutual information approach showed more indecisive behavior. Due to the doubling back resulting from the indecisiveness, the algorithm was slower, but it did decided to explore both corridors which has merit. The "greedy" algorithms displayed a more depth-first approach.
 
 ## Robot Setup
 The `robot_mapping` package includes several ROS2 nodes that allow the user to run slam_toolbox with some added features. The intercept node allows the user to dynamically change the FOV of the LaserScan message for study with low sensor data cases. By simply publishing with `ros2 topic pub /fov std_msgs/msg/Int64 "{data: <FOV_degrees>}"` the FOV of the LaserScan can be adjusted.
@@ -240,7 +260,9 @@ The `pointcloud_to_laserscan` node allows the user to easily convert 3D scans to
 ## Interfacing With Nav2
 The Nav2 stack is easy to use and can be utilized by simply publishing on the `/goal_pose` ROS2 topic, but for further control and and a closed feedback loop, I have created a package `nav_client_cpp` to handle action feedback. Unlike simply publishing on the `/goal_pose` topic, using the services in this package allows for replanning upon failure, and diagnostic printouts. Through topics and service calls, this package can easily interface with a planner node/package. The structure is as follows:
 
-![limited_FOV_sim]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_client.png)
+![frontier_client]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_client.png)
+
+This navigation client combined with the `frontier_exp_cpp` and the `robot_mapping` packages makes deploying frontier exploration simple and approachable.
 
 ## Acknowledgements!
 <!-- <table>
