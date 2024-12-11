@@ -37,7 +37,7 @@ gallery4430:
     title: "Clustering Example Hallway"
 ---
 ## Featured Video
-**FINAL VIDEO GOES HERE**
+<iframe width="560" height="315" src="https://www.youtube.com/embed/4t7K3hyisQk?si=eD31e2DiFHeh-P8S" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Project Overview
 The goal of this project was to create an easy-to-use platform to **rapidly prototype frontier exploration algorithms** on a robot in various environments with both full and limited field of view sensor data. Through this package, users should be able to easily leverage the provided libraries to generate, cluster, and evaluate frontiers or integrate the provided component functions into their own novel approaches. 
@@ -228,12 +228,62 @@ Plots from various test runs were created to showcase the comparision between va
 
 ![entropy_value]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/Map_per_time10.png)
 
+What these plots indicate is that of the various exploration algorithms prototyped, some performed better than others. Selecting the closest frontiers/clusters and the largest clusters proved to be very effective ways of getting a robot to autonomously navigate without large state machines or multi-planner ensembles.
+
 ## Robot Setup
-The `robot_control` package includes several ROS2 nodes that allow the user to run slam_toolbox with some added features. The intercept node allows the user to dynamically change the FOV of the LaserScan message for study with low sensor data cases. By simply publishing with `ros2 topic pub /fov std_msgs/msg/Int64 "{data: <FOV_degrees>}"` the FOV of the LaserScan can be adjusted.
+The `robot_mapping` package includes several ROS2 nodes that allow the user to run slam_toolbox with some added features. The intercept node allows the user to dynamically change the FOV of the LaserScan message for study with low sensor data cases. By simply publishing with `ros2 topic pub /fov std_msgs/msg/Int64 "{data: <FOV_degrees>}"` the FOV of the LaserScan can be adjusted.
 
 ![limited_FOV_sim]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/robot_example.png)
 
-The pointcloud_to_laserscan node allows the user to easily convert 3D scans to 2D since slam_toolbox is a 2D LIDAR platform. This package also provides scripted paths for perfect repeatability in simulation.
+The `pointcloud_to_laserscan` node allows the user to easily convert 3D scans to 2D since slam_toolbox is a 2D LIDAR platform. This package also provides scripted paths for perfect repeatability in simulation.
 
 ## Interfacing With Nav2
-The Nav2 stack is easy to use and can be utilized by simply publishing on the `/goal_pose` ROS2 topic, but for further control and and a closed feedback loop, I have created a package `nav_client_cpp` to handle action feedback. Unlike simply publishing on the `/goal_pose` topic, this allows for replanning upon failure, and diagnostic printouts. Through topics and service calls, this package can easily interface with a planner node/package.
+The Nav2 stack is easy to use and can be utilized by simply publishing on the `/goal_pose` ROS2 topic, but for further control and and a closed feedback loop, I have created a package `nav_client_cpp` to handle action feedback. Unlike simply publishing on the `/goal_pose` topic, using the services in this package allows for replanning upon failure, and diagnostic printouts. Through topics and service calls, this package can easily interface with a planner node/package. The structure is as follows:
+
+![limited_FOV_sim]({{ site.url }}{{ site.baseurl }}/assets/images/final_project/frontier_client.png)
+
+## Acknowledgements!
+<!-- <table>
+  <tbody>
+    <tr>
+      <td style="border-bottom-width:0;">
+        <img src="{{site.baseurl}}/assets/images/final_project/muchen.jpeg" alt="max" width="60">
+      </td>
+      <td style="border-bottom-width:0;">
+        <strong>Max Muchen Sun</strong> <br>
+        Project Mentor <br>
+        <a href="https://muchen-sun.com/" target="_blank" rel="noopener noreferrer">website</a>
+      </td>
+      <td style="border-bottom-width:0;">
+        <img src="{{site.baseurl}}/assets/images/final_project/elwin-matt.jpg" alt="matt" width="60">
+      </td>
+      <td style="border-bottom-width:0;">
+        <strong>Matt Elwin</strong> <br>
+        Program Advisor <br>
+        <a href="https://robotics.northwestern.edu/people/profiles/faculty/elwin-matt.html" target="_blank" rel="noopener noreferrer">website</a>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+
+<table>
+  <tbody>
+    <tr>
+      <td style="border-bottom-width:0; text-align: center;">
+        <img src="{{site.baseurl}}/assets/images/final_project/muchen.jpeg" alt="Max Muchen Sun" width="270"><br>
+        <strong>Max Muchen Sun</strong> <br>
+        Project Mentor <br>
+        <a href="https://muchen-sun.com/" target="_blank" rel="noopener noreferrer">website</a>
+      </td>
+      <td style="border-bottom-width:0; text-align: center;">
+        <img src="{{site.baseurl}}/assets/images/final_project/elwin-matt.jpg" alt="Matt Elwin" width="270"><br>
+        <strong>Matt Elwin</strong> <br>
+        MSR Advisor <br>
+        <a href="https://robotics.northwestern.edu/people/profiles/faculty/elwin-matt.html" target="_blank" rel="noopener noreferrer">website</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+I would like to thank Max and Matt for their guidance and support with this project. They have taught me a lot about mathematical modeling, software architecture, and robotics testing that were invaluable in pursuing my interests in autonomous exploration. 
+
