@@ -295,7 +295,7 @@ This navigation client combined with the `frontier_exp_cpp` and the `robot_mappi
         <img src="{{site.baseurl}}/assets/images/final_project/muchen.jpeg" alt="Max Muchen Sun" width="270"><br>
         <strong>Max Muchen Sun</strong> <br>
         Project Mentor <br>
-        <a href="https://muchen-sun.com/" target="_blank" rel="noopener noreferrer">website</a>
+        <a href="http://maxsun.io/" target="_blank" rel="noopener noreferrer">website</a>
       </td>
       <td style="border-bottom-width:0; text-align: center;">
         <img src="{{site.baseurl}}/assets/images/final_project/elwin-matt.jpg" alt="Matt Elwin" width="270"><br>
