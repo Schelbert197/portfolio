@@ -16,9 +16,12 @@ gallery4333:
 
 ![saltbot_pose]({{ site.url }}{{ site.baseurl }}/assets/images/saltbot_pose.jpg)
 
-Hello! I'm Srikanth, a current M.S. in Robotics student at Northwestern University. I am most interested in the field of mobile robotics with a focus in sensing, navigation, and autonomy. I'm excited to develop interesting and impactful robots that go where other robots haven't gone before! I bring coding experience with ROS2, Python, C++, and C, as well as multiple years of industry experience working in design and field robotics. I am currently seeking roles in robotic software, autonomy, and control.
+Hello! I'm Srikanth, an Autonomy Engineer and Roboticist experienced in **ROS2, C++ and Python**. I am a graduate of the M.S. in Robotics program at Northwestern University where I had the opportunity to dive into the field of mobile robotics with a focus in sensing, navigation, and autonomy.
+<!-- a current M.S. in Robotics student at Northwestern University. I am most interested in the field of mobile robotics with a focus in sensing, navigation, and autonomy. I'm excited to develop interesting and impactful robots that go where other robots haven't gone before! I bring coding experience with ROS2, Python, C++, and C, as well as multiple years of industry experience working in design and field robotics. I am currently seeking roles in robotic software, autonomy, and control. -->
 
-My most recent project involves creating an autonomous roadsalt spreading robot or "saltbot" for melting ice in the cold Chicago winter. Feel free to check out this project and many more on my main page [HERE]({{ site.url }}{{ site.baseurl }})!
+I really enjoy studying how robots see and move in the world which is what brought me to my final project researching various autonomous exploration algorithms. As a result of this project, I wanted to share my code with others so that anyone can quickly and easily deploy **Frontier Exploration** on a mobile robot. To see the project, please check it out [HERE!]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/)
+
+<!-- My most recent project involves creating an autonomous roadsalt spreading robot or "saltbot" for melting ice in the cold Chicago winter. Feel free to check out this project and many more on my main page [HERE]({{ site.url }}{{ site.baseurl }})! -->
 
 ## Professional Experience
 
