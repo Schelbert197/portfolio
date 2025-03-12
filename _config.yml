@@ -59,11 +59,11 @@ plugins:
 author:
   name   : "Srikanth Schelbert"
   avatar : "/assets/images/bio-photo1.png"
-  bio    : "MS in Robotics @ Northwestern"
+  bio    : "Autonomy Engineer @ CMU SEI"
   links:
-    - label: "Evanston, IL"
+    - label: "Pittsburgh, PA"
       icon: "fas fa-fw fa-map-marker-alt"
-      url: ""
+      url: "https://maps.app.goo.gl/QpKGDwM37knV4RvM7"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/Schelbert197"
