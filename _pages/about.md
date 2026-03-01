@@ -16,7 +16,7 @@ gallery4333:
 
 ![saltbot_pose]({{ site.url }}{{ site.baseurl }}/assets/images/saltbot_pose.jpg)
 
-Hello! I'm Srikanth, an Autonomy Engineer and Roboticist experienced in **ROS2, C++ and Python**. I am a graduate of the M.S. in Robotics program at Northwestern University where I had the opportunity to dive into the field of mobile robotics with a focus in sensing, navigation, and autonomy.
+Hello! I'm Srikanth, an Autonomy Engineer and Roboticist experienced in **C++, Python, and ROS2**. I am currently employed as an Autonomy Engineer at Shield AI, and previously, I was an Autonomy Engineer at Carnegie Mellon University's Software Engineering Institute. I am a graduate of the M.S. in Robotics program at Northwestern University where I had the opportunity to dive into the field of mobile robotics with a focus in planning, navigation, and autonomy.
 <!-- a current M.S. in Robotics student at Northwestern University. I am most interested in the field of mobile robotics with a focus in sensing, navigation, and autonomy. I'm excited to develop interesting and impactful robots that go where other robots haven't gone before! I bring coding experience with ROS2, Python, C++, and C, as well as multiple years of industry experience working in design and field robotics. I am currently seeking roles in robotic software, autonomy, and control. -->
 
 I really enjoy studying how robots see and move in the world which is what brought me to my final project researching various autonomous exploration algorithms. As a result of this project, I wanted to share my code with others so that anyone can quickly and easily deploy **Frontier Exploration** on a mobile robot. To see the project, please check it out [HERE!]({{ site.url }}{{ site.baseurl }}/portfolio_featured/frontier/)
@@ -28,9 +28,14 @@ I really enjoy studying how robots see and move in the world which is what broug
 <table>
   <tbody>
     <tr>
+      <td style="border-bottom-width:0;"><img src="{{site.baseurl}}/assets/images/shield.jpg" alt="shield" width="60"></td>
+      <td style="border-bottom-width:0;">
+      <strong>Shield AI</strong> <br> 01/2026 - Present <br>Autonomy Engineer</td>
       <td style="border-bottom-width:0;"><img src="{{site.baseurl}}/assets/images/sei.jpeg" alt="sei" width="60"></td>
       <td style="border-bottom-width:0;">
-      <strong>CMU Software Engineering Institute</strong> <br> 01/2025 - Present <br> Associate Autonomy Engineer</td>
+      <strong>CMU Software Engineering Institute</strong> <br> 06/2024 - 01/2026<br> Associate Autonomy Engineer</td>
+    </tr>
+    <tr>
       <td style="border-bottom-width:0;"><img src="{{site.baseurl}}/assets/images/hitachi.png" alt="hitachi" width="60"></td>
       <td style="border-bottom-width:0;">
       <strong>Hitachi Rail STS</strong> <br> 06/2022 - 08/2023 <br> Associate Hardware Engineer</td>
@@ -81,6 +86,9 @@ At Hitachi I designed signals, switch machines, and other ground equipment neces
 
 #### Carnegie Mellon Software Engineering Institute
 As a part of my MS in Robotics experience, I elected to do an internship to further expand my skills and network in the field. I was fortunate enough to work as an **Autonomy Lab Intern** within the <a href="https://www.sei.cmu.edu/about/divisions/artificial-intelligence-division/" target="_blank" rel="noopener noreferrer">Artificial Intelligence Division at the Software Engineering Institute (SEI).</a> While there, I brought up a robotics development environment for engineers to prototype work using ROS2 and Nvidia IsaacSim. After a productive and engaging summer, I decided to return as a full time **Autonomy Engineer** to continue the reasearch and development goals of the Autonomy Lab!
+
+#### Shield AI
+I currently work at Shield AI on their [Hivemind Solutions](https://shield.ai/hivemind-solutions/) team designing **tactical autonomy solutions** for autonomous aircraft. Our goal is to bring cutting edge ready-to-fly autonomy to a large suite of autonomous craft. I'm excited to build lean and effective solutions for SWAP constrained vehicles in real world scenarios and enjoying working with industry leaders!
 
 ## Leadership
 

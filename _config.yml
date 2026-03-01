@@ -59,11 +59,11 @@ plugins:
 author:
   name   : "Srikanth Schelbert"
   avatar : "/assets/images/bio-photo1.png"
-  bio    : "Autonomy Engineer @ CMU SEI"
+  bio    : "Autonomy Engineer @ Shield AI"
   links:
-    - label: "Pittsburgh, PA"
+    - label: "Washington DC"
       icon: "fas fa-fw fa-map-marker-alt"
-      url: "https://maps.app.goo.gl/VgK9gCfTdcejaATs5"
+      url: "https://maps.app.goo.gl/fmoY6SVEAejK8CmM7"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/Schelbert197"
